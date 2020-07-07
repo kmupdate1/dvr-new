@@ -4,7 +4,7 @@ import read.LongLatRead;
 
 public class DVRMain {
 	private static final int START = 7;
-	private static final int STOP  = 9;
+	private static final int STOP  = 7;
 
 	public static void main(String[] args) throws IOException, Exception {
 		int index = START;

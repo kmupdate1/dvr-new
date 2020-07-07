@@ -1,13 +1,15 @@
 package read;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class LongLatRead {
-	private BufferedReader bReader = null;
+	private static final String RESOURCE_PATH = "/home/ken/dvr/resources/";
 
+	private BufferedReader bReader = null;
 	private String line;
 
 	public LongLatRead(int num) throws Exception {
@@ -21,6 +23,7 @@ public class LongLatRead {
 		bReader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFileName)));
 	}
 
+	// ファイルがデカすぎてBufferdReaderに収まりきらないから、なんとかする。
 	public void read() throws IOException {
 		int index = 0;
 
@@ -36,7 +39,8 @@ public class LongLatRead {
 				} else if ( colno == 1 ) {
 					System.out.println(columuns[colno]);
 				} else if ( colno == 6 ) {
-					System.out.println(columuns[colno]);					
+					System.out.println(columuns[colno]);
+					new File(RESOURCE_PATH + "mac/" + columuns[colno] + ".csv").createNewFile();
 				}
 			}
 			index++;
@@ -49,7 +53,8 @@ public class LongLatRead {
 		}
 	}
 
+	// inline method
 	private String csvFile(String name) {
-		return "/home/ken/dvr/resources/" + name + ".csv";
+		return RESOURCE_PATH + "regist/" + name + ".csv";
 	}
 }
