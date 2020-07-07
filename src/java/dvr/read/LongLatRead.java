@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
+import write.LongLatWrite;
+
 public class LongLatRead {
 	private static final String RESOURCE_PATH = "/home/ken/dvr/resources/";
 
@@ -33,16 +35,9 @@ public class LongLatRead {
 			System.out.println(index + "件目");
 			String[] columuns = line.split(",");
 
-			for (int colno = 0; colno < columuns.length; colno++) {
-				if ( colno == 0 ) {
-					System.out.println(columuns[colno]);					
-				} else if ( colno == 1 ) {
-					System.out.println(columuns[colno]);
-				} else if ( colno == 6 ) {
-					System.out.println(columuns[colno]);
-					new File(RESOURCE_PATH + "mac/" + columuns[colno] + ".csv").createNewFile();
-				}
-			}
+			new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[6] + ".csv")
+				.search(RESOURCE_PATH, columuns[0], columuns[1]);
+
 			index++;
 		}
 
