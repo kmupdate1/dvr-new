@@ -35,7 +35,7 @@ public class LongLatRead {
 			System.out.println(index + "件目");
 			String[] columuns = line.split(",");
 
-			new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[6] + ".csv")
+			new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[2] + ".csv")
 				.search(RESOURCE_PATH, columuns[0], columuns[1]);
 
 			index++;

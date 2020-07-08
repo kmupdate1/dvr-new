@@ -3,8 +3,8 @@ import java.io.IOException;
 import read.LongLatRead;
 
 public class DVRMain {
-	private static final int START = 7;
-	private static final int STOP  = 7;
+	private static final int START = 8;
+	private static final int STOP  = 8;
 
 	public static void main(String[] args) throws IOException, Exception {
 		int index = START;

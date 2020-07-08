@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-public class LongLatWrite {
+public class LongLatWrite /*implements LongLatWritable */{
 	//private File input;
 
 	private String createFileName;
@@ -26,7 +26,5 @@ public class LongLatWrite {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
