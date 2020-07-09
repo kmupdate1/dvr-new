@@ -23,24 +23,19 @@ public class DVRMain {
 			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(month));
 			String[] res = new LongLatReadREGIST(t_regist_gps).specificRead();
 
-			// ここがおかしい
-			exection();
+			String pcid_registid = fileDirectory("pc-regist") + csvFile(res[0] + "_" + res[1] + "_" + fileNameMonth(month));
+			String mac_address   = fileDirectory("mac") + csvFile(res[2]);
+
+			File mac = new File(mac_address);
+			if ( !mac.exists() ) {
+				new File(mac_address).createNewFile();
+			}
+
+			String[] writeData = new LongLatSearch(pcid_registid).search(new LongLatRead(month, pcid_registid).read());
+			new LongLatWrite(mac_address).write(writeData);
 
 			month++;
 		}
-	}
-
-	private static void exection() throws IOException, Exception {
-		String pcid_registid = fileDirectory("pc-regist") + csvFile(res[0] + "_" + res[1] + "_" + fileNameMonth(month));
-		String mac_address   = fileDirectory("mac") + csvFile(res[2]);
-
-		File mac = new File(mac_address);
-		if ( !mac.exists() ) {
-			new File(mac_address).createNewFile();
-		}
-
-		String[] writeData = new LongLatSearch(pcid_registid).search(new LongLatRead(month, pcid_registid));
-		new LongLatWrite(mac_address).write(writeData);
 	}
 
 	private static String fileNameMonth(int month) {

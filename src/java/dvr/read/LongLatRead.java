@@ -6,38 +6,33 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 
 public class LongLatRead {
-	private BufferedReader bufferedReader = null;
+	protected BufferedReader bufferedReader = null;
 
 	public LongLatRead(String readFileName) throws Exception {
-		bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(readFileName)));
+		// oome出そう
+		try {
+			bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(readFileName)));
+		} catch (OutOfMemoryError e) {
+			System.out.println("ファイル読込みの際に、バッファオーバーフローを起こしました。");
+		}
 	}
 
-	public String[] read(int[] elements) throws IOException {
-		String[] res;
+	public void read(ReadOneLine readOneLine) throws IOException, Exception {
 
 		int index = 0;
 		while ( (String line = bufferedReader.readLine()) != null ) {
-			System.out.println("----------------------------------");
+			readOneLine.hasRead(line.split(","));
 
-			System.out.println(index + "件目");
-			String[] columuns = line.split(",");
-
-			for (int i = 0; i < elements.length; i++) {
-				res[i] = columuns[i];
-			}
-			index++;
 		}
 
-		try {
-			bufferedReader.close();
-		} catch(Exception e) {
-			e.printStackTrace();
-		}
-
-		return res;
+		bufferedReader.close();
 	}
 
 	public String[] read() throws IOException {
 
+	}
+
+	public interface ReadOneLine {
+		public String[] hasRead();
 	}
 }
