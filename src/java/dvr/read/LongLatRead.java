@@ -1,44 +1,45 @@
 package read;
 
-import java.io.File;
+//import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import write.LongLatWrite;
-
 public class LongLatRead {
-	private static final String RESOURCE_PATH = "/home/ken/dvr/resources/";
-
 	private BufferedReader bReader = null;
-	private String line;
 
-	public LongLatRead(int num) throws Exception {
+
+	public LongLatRead(int month, String readFileName) throws Exception {
+		/*
 		String csvFileName;
-		if ( num < 10 ) {
-			csvFileName = csvFile("t_regist_gps0" + num);
+		if ( month < 10 ) {
+			csvFileName = csvFile(readFileName + "0" + month);
 		} else {
-			csvFileName = csvFile("t_regist_gps" + num);
+			csvFileName = csvFile(readFileName + month);
 		}
+		*/
 
-		bReader = new BufferedReader(new InputStreamReader(new FileInputStream(csvFileName)));
+		bReader = new BufferedReader(new InputStreamReader(new FileInputStream(readFileName)));
 	}
 
-	// ファイルがデカすぎてBufferdReaderに収まりきらないから、なんとかする。
-	public void read() throws IOException {
-		int index = 0;
+	public String[] read(int[] colsize) throws IOException {
+		String[] res;
 
-		while ( (line = bReader.readLine()) != null ) {
+		int index = 0;
+		while ( (String line = bReader.readLine()) != null ) {
 			System.out.println("----------------------------------");
 
 			System.out.println(index + "件目");
 			String[] columuns = line.split(",");
 
-			new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[2] + ".csv")
-				.search(RESOURCE_PATH, columuns[0], columuns[1]);
-
+			for (int i = 0; i < colsize.length; i++) {
+				res[i] = columuns[i];
+			}
 			index++;
+
+			//new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[2] + ".csv")
+				//.search(RESOURCE_PATH, columuns[0], columuns[1]);
 		}
 
 		try {
@@ -46,10 +47,13 @@ public class LongLatRead {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+
+		return res;
 	}
 
-	// inline method
+	/*
 	private String csvFile(String name) {
 		return RESOURCE_PATH + "regist/" + name + ".csv";
 	}
+	*/
 }

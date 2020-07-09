@@ -22,13 +22,17 @@ public class LongLatWrite /*implements LongLatWritable */{
 
 	private LongLatSearch llSearch;
 
-	public LongLatWrite(String createFileName) throws IOException {
-		//this.search = new LongLatSearch();
-		this.createFileName = createFileName;
+	private String writeFileName;
 
-		new File(createFileName).createNewFile();
+	public LongLatWrite(String writeFileName) throws IOException {
+		this.writeFileName = writeFileName;
 	}
 
+	public void write() {
+
+	}
+
+	/*
 	public void search(String path, String column0, String column1) throws IOException {
 
 		String searchFile = path + "pc-regist/" + column0 + "_" + column1 + "_12.csv";
@@ -60,4 +64,5 @@ public class LongLatWrite /*implements LongLatWritable */{
 			e.printStackTrace();
 		}
 	}
+	*/
 }
