@@ -12,10 +12,10 @@ public class LongLatSearch {
 	private double preLongititude;
 	private double preLatitude;
 
-	private BufferedReader bReader;
+	private BufferedReader bufferedReader;
 
 	public LongLatSearch(String searchFile) {
-		bReader = new BufferedReader(new InputStreamReader(new FileInputStream(searchFilePath)));
+		bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(searchFilePath)));
 	}
 
 	public String[] search(String[] tudes) {
