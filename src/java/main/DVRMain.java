@@ -21,18 +21,21 @@ public class DVRMain {
 		while ( month <= stop ) {
 			// read [t_regist_gpsXX.csv]
 			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(month));
-			String[] res = new LongLatReadREGIST(t_regist_gps).specificRead();
+			String[] t_regist_gpsRES = new LongLatRead(t_regist_gps).read(new LongLatRead.ReadOneLine() {
+				@Override
+				public void hasRead(String[] lineStrs) {
+					String pcid_registid = fileDirectory("pc-regist") + csvFile(t_regist_gpsRES[0] + "_" + t_regist_gpsRES[1] + "_" + fileNameMonth(month));
+					String mac_address   = fileDirectory("mac") + csvFile(t_regist_gpsRES[2]);
 
-			String pcid_registid = fileDirectory("pc-regist") + csvFile(res[0] + "_" + res[1] + "_" + fileNameMonth(month));
-			String mac_address   = fileDirectory("mac") + csvFile(res[2]);
+					File mac = new File(mac_address);
+					if ( !mac.exists() ) {
+						new File(mac_address).createNewFile();
+					}
 
-			File mac = new File(mac_address);
-			if ( !mac.exists() ) {
-				new File(mac_address).createNewFile();
-			}
-
-			String[] writeData = new LongLatSearch(pcid_registid).search(new LongLatRead(month, pcid_registid).read());
-			new LongLatWrite(mac_address).write(writeData);
+					String[] writeData = new LongLatSearch(pcid_registid).search(new LongLatRead(month, pcid_registid).read());
+					new LongLatWrite(mac_address).write(writeData);
+				}
+			});
 
 			month++;
 		}

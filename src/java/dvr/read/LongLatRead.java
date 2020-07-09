@@ -22,7 +22,6 @@ public class LongLatRead {
 		int index = 0;
 		while ( (String line = bufferedReader.readLine()) != null ) {
 			readOneLine.hasRead(line.split(","));
-
 		}
 
 		bufferedReader.close();
@@ -33,6 +32,6 @@ public class LongLatRead {
 	}
 
 	public interface ReadOneLine {
-		public String[] hasRead();
+		public void hasRead(String[] lineStrs);
 	}
 }
