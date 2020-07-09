@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.BufferedReader;
 import java.io.IOException;
 
-import write.LongLatWrite;
+import write.CleangingWrite;
 
 public class Cleanging {
 	private static final String RESOURCE_PATH = "/home/ken/dvr/resources/";
@@ -34,13 +34,13 @@ public class Cleanging {
 			System.out.println(index + "件目");
 			String[] columuns = line.split(",");
 
-			//new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[2] + ".csv")
-				//.search(RESOURCE_PATH, columuns[0], columuns[1]);
+			new CleangingWrite(RESOURCE_PATH + "pc-regist/" + columuns[0] + "_"  + columuns[1] + "_12.csv")
+				.write(RESOURCE_PATH, columuns[0], columuns[1]);
 			
 			for (int i = 0; i < 4; i++) {
 				System.out.println(columuns[i]);
 			}
-			
+
 			index++;
 		}
 		System.out.println("----------------------------------");
