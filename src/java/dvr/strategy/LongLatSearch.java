@@ -1,4 +1,4 @@
-package strategy;
+package dvr.strategy;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -30,19 +30,24 @@ public class LongLatSearch {
 	private boolean isStrange(String[] tudes) {
 		boolean result = false;
 
-		double longDiff = Double.parseDouble(tudes[0]) - this.preLongititude;
-		double latDiff  = Double.parseDouble(tudes[1]) - this.preLatitude;
+		double tude0 = Double.parseDouble(tudes[0]);
+		double tude1 = Double.parseDouble(tudes[1])
+
+		double longDiff = tude0 - this.preLongititude;
+		double latDiff  = tude1 - this.preLatitude;
+
+		if ( tude0 == 0.0 || tude1 == 0.0 ) {
+			result = true;
+		}
 
 		if ( index > 0 ) {
-			if ( longititude == 0.0 || latitude == 0.0 ) {
-				result = true;
-			} else if ( longDiff > LONG_PIVOT || latDiff > LAT_PIVOT ) {
+			if ( longDiff > LONG_PIVOT || latDiff > LAT_PIVOT ) {
 				result = true;
 			}
 		}
 
-		this.preLongititude = Double.parseDouble(tudes[0]);
-		this.preLatitude    = Double.parseDouble(tudes[1]);
+		this.preLongititude = tude0;
+		this.preLatitude    = tude1;
 
 		return result;
 	}

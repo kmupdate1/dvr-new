@@ -1,4 +1,4 @@
-package read;
+package dvr.read;
 
 //import java.io.File;
 import java.io.FileInputStream;
@@ -10,16 +10,7 @@ public class LongLatRead {
 	private BufferedReader bReader = null;
 
 
-	public LongLatRead(int month, String readFileName) throws Exception {
-		/*
-		String csvFileName;
-		if ( month < 10 ) {
-			csvFileName = csvFile(readFileName + "0" + month);
-		} else {
-			csvFileName = csvFile(readFileName + month);
-		}
-		*/
-
+	public LongLatRead(String readFileName) throws Exception {
 		bReader = new BufferedReader(new InputStreamReader(new FileInputStream(readFileName)));
 	}
 
@@ -37,9 +28,6 @@ public class LongLatRead {
 				res[i] = columuns[i];
 			}
 			index++;
-
-			//new LongLatWrite(RESOURCE_PATH + "mac/" + columuns[2] + ".csv")
-				//.search(RESOURCE_PATH, columuns[0], columuns[1]);
 		}
 
 		try {
@@ -50,10 +38,4 @@ public class LongLatRead {
 
 		return res;
 	}
-
-	/*
-	private String csvFile(String name) {
-		return RESOURCE_PATH + "regist/" + name + ".csv";
-	}
-	*/
 }
