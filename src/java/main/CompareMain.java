@@ -33,6 +33,7 @@ public class CompareMain {
 
 				@Override
 				public void hasRead(String[] lineStrs) throws IOException, Exception {
+					LongLatWriter pc_regist = new LongLatWriter(longlatSetFile);
 
 					debugger(debug);
 
@@ -47,7 +48,6 @@ public class CompareMain {
 
 					debugger("debugdebug");
 
-					LongLatWriter pc_regist = new LongLatWriter(longlatSetFile);
 					pc_regist.write(lineStrs[8], lineStrs[9]);
 					pc_regist.close();
 				}

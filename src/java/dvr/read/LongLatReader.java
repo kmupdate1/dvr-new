@@ -23,9 +23,9 @@ public class LongLatReader {
 
 	public void read(ReadOneLineListener listener) throws IOException, Exception {
 
-		String line = bufferedReader.readLine();
+		String line;
 
-		while ( line != null ) {
+		while ( (line = bufferedReader.readLine()) != null ) {
 			listener.hasRead(line.split(","));
 		}
 
@@ -33,6 +33,6 @@ public class LongLatReader {
 	}
 
 	public interface ReadOneLineListener {
-		public void hasRead(String[] lineStrs) throws IOException, Exception;
+		public void hasRead(String[] lineStrs) /*throws IOException, Exception*/;
 	}
 }

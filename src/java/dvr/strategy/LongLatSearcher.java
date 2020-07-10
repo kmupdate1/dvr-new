@@ -35,6 +35,11 @@ public class LongLatSearcher {
 		return res;
 	}
 
+	public String[] search(String tude0, String tude1) {
+		String[] tudes = {tude0, tude1};
+		return search(tudes);
+	}
+
 	private boolean isStrange(String[] tudes) {
 		boolean result = false;
 
