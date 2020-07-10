@@ -22,7 +22,7 @@ public class CompareMain {
 
 			final Integer month = start;
 			new LongLatReader(gpsFilePath).read(new LongLatReader.ReadOneLineListener() {
-				private List<String[]> pcregistList = new ArrayList<String[]>();
+				private List<String> pcregistList = new ArrayList<String>();
 
 				private File longlatSet;
 				private String longlatSetFile;
@@ -30,18 +30,15 @@ public class CompareMain {
 				@Override
 				public void hasRead(String[] lineStrs) throws IOException, Exception {
 					longlatSetFile = gpsFilePath + lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(month) + ".csv";
-					if ( !isExistsSets(lineStrs) ) {
+					String set = lineStrs[0] + lineStrs[1];
+					if ( !pcregistList.contains(set) ) {
 						longlatSet = new File(longlatSetFile).createNewFile();
-						pcregistList.add(lineStrs);
+						pcregistList.add(set);
 					}
 
 					new LongLatWriter(longlatSetFile).write();
 
 					counter++;
-				}
-
-				private boolean isExistsSets(String[] strs) {
-
 				}
 			});
 
