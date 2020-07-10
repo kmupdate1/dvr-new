@@ -3,37 +3,45 @@ package dvr.main;
 import java.io.File;
 import java.io.IOException;
 
-import dvr.read.LongLatRead;
-import dvr.write.LongLatWrite;
-import dvr.search.LongLatSearch;
+import dvr.read.LongLatReader;
+import dvr.write.LongLatWriter;
+import dvr.strategy.LongLatSearcher;
 
 public class DVRMain {
 	//private static final String RESOURCE_PATH = "/home/ken/dvr/resources/";
-	private static String resourcePath;
+	private static String resourcesPath;
 
 	public static void main(String[] args) throws IOException, Exception {
-		resourcePath = args[0];
+		resourcesPath = args[0];
 		
-		int start = Integer.parseInt(args[1]);
-		int stop  = Integer.parseInt(args[2]);
+		Integer start = Integer.parseInt(args[1]);
+		Integer stop  = Integer.parseInt(args[2]);
 
-		int month = start;
+		Integer month = start;
 		while ( month <= stop ) {
 			// read [t_regist_gpsXX.csv]
 			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(month));
-			String[] t_regist_gpsRES = new LongLatRead(t_regist_gps).read(new LongLatRead.ReadOneLine() {
+			
+			final Integer anonymousMonth = month;
+			new LongLatReader(t_regist_gps).read(new LongLatReader.ReadOneLine() {
 				@Override
-				public void hasRead(String[] lineStrs) {
-					String pcid_registid = fileDirectory("pc-regist") + csvFile(t_regist_gpsRES[0] + "_" + t_regist_gpsRES[1] + "_" + fileNameMonth(month));
-					String mac_address   = fileDirectory("mac") + csvFile(t_regist_gpsRES[2]);
+				public void hasRead(String[] lineStrs) throws IOException, Exception {
+					String pcid_registid = fileDirectory("pc-regist") + csvFile(lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(anonymousMonth));
+					String mac_address   = fileDirectory("mac") + csvFile(lineStrs[2]);
 
 					File mac = new File(mac_address);
 					if ( !mac.exists() ) {
-						new File(mac_address).createNewFile();
+						mac.createNewFile();
 					}
 
-					String[] writeData = new LongLatSearch(pcid_registid).search(new LongLatRead(month, pcid_registid).read());
-					new LongLatWrite(mac_address).write(writeData);
+					LongLatWriter writer = new LongLatWriter(mac_address);
+					new LongLatReader(pcid_registid).read(new LongLatReader.ReadOneLine() {
+						@Override
+						public void hasRead(String[] lineStrsSub) throws IOException, Exception {
+							writer.write(new LongLatSearcher().search(lineStrsSub));
+						}
+					});
+					writer.close();
 				}
 			});
 
@@ -41,11 +49,11 @@ public class DVRMain {
 		}
 	}
 
-	private static String fileNameMonth(int month) {
-		String res = toString(month);
+	private static String fileNameMonth(Integer month) {
+		String res = month.toString();
 
 		if ( month < 10 ) {
-			res = "0" + toString(month);
+			res = "0" + month.toString();
 		}
 
 		return res;
@@ -53,7 +61,7 @@ public class DVRMain {
 
 	// inline
 	private static String fileDirectory(String directiory) {
-		return resourcePath + directiory + "/";
+		return resourcesPath + directiory + "/";
 	}
 
 	// inline
