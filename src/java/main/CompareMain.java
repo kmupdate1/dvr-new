@@ -1,5 +1,3 @@
-package drv.main;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -11,36 +9,51 @@ import dvr.write.LongLatWriter;
 import dvr.strategy.PCidREGISTidCompare;
 
 public class CompareMain {
-	public static void main(String[] args) throws IOException, Exception {
-		// String gpsFilePath = "/home/ken/dvr/resources/body/t_gps06.csv";
-		final String gpsFilePath = args[0];
 
+	public static final String debug = "ここまで";
+
+	public static void debugger(String debug) {
+		System.out.println(debug);
+	}
+
+	public static void main(String[] args) throws IOException, Exception {
+		String resourcesPath = args[0];
 		Integer start = Integer.parseInt(args[1]);
 		Integer stop  = Integer.parseInt(args[2]);
+		// String gpsFilePath = "/home/ken/dvr/resources/body/t_gps06.csv";
+		while ( start < stop ) {
 
-		while ( start > stop ) {
-
+			final String gpsFilePath = resourcesPath + "body/t_gps" + fileNameMonth(start) + ".csv";
 			final Integer month = start;
+
 			new LongLatReader(gpsFilePath).read(new LongLatReader.ReadOneLineListener() {
 				private List<String> pcregistList = new ArrayList<String>();
 
-				private File longlatSet;
 				private String longlatSetFile;
 
 				@Override
 				public void hasRead(String[] lineStrs) throws IOException, Exception {
-					longlatSetFile = gpsFilePath + lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(month) + ".csv";
+
+					debugger(debug);
+
+					longlatSetFile = resourcesPath + "pc-regist/" + lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(month) + ".csv";
 					String set = lineStrs[0] + lineStrs[1];
 					if ( !pcregistList.contains(set) ) {
-						longlatSet = new File(longlatSetFile).createNewFile();
+						new File(longlatSetFile).createNewFile();
 						pcregistList.add(set);
+
+						debugger("ファイル生成");
 					}
 
-					new LongLatWriter(longlatSetFile).write();
+					debugger("debugdebug");
 
-					counter++;
+					LongLatWriter pc_regist = new LongLatWriter(longlatSetFile);
+					pc_regist.write(lineStrs[8], lineStrs[9]);
+					pc_regist.close();
 				}
 			});
+
+			debugger("脱出");
 
 			start++;
 		}

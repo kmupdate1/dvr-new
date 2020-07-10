@@ -1,5 +1,3 @@
-package dvr.main;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -17,7 +15,7 @@ public class DVRMain {
 		Integer start = Integer.parseInt(args[1]);
 		Integer stop  = Integer.parseInt(args[2]);
 
-		while ( start > stop ) {
+		while ( start < stop ) {
 			// read [t_regist_gpsXX.csv]
 			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(start));
 			
@@ -41,8 +39,6 @@ public class DVRMain {
 						}
 					});
 					writer.close();
-
-					mac.close();
 				}
 			});
 

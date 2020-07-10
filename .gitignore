@@ -1,4 +1,3 @@
-mac
+resources
 
-cleanging
-result
+./builder/classes/*

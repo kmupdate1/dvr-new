@@ -23,8 +23,8 @@ public class LongLatReader {
 
 	public void read(ReadOneLineListener listener) throws IOException, Exception {
 
-		Integer index = 0;
 		String line = bufferedReader.readLine();
+
 		while ( line != null ) {
 			listener.hasRead(line.split(","));
 		}
