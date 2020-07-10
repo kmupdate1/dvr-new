@@ -35,6 +35,10 @@ public class LongLatWriter {
 		}
 	}
 
+	public void write(String tude) throws IOException, Exception {
+		printWriter.write(tude);
+	}
+
 	public void close() throws IOException, Exception {
 		printWriter.close();
 	}

@@ -17,17 +17,16 @@ public class DVRMain {
 		Integer start = Integer.parseInt(args[1]);
 		Integer stop  = Integer.parseInt(args[2]);
 
-		Integer month = start;
-		while ( month <= stop ) {
+		while ( start > stop ) {
 			// read [t_regist_gpsXX.csv]
-			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(month));
+			String t_regist_gps  = fileDirectory("regist") + csvFile("t_regist_gps" + fileNameMonth(start));
 			
-			final Integer anonymousMonth = month;
-			new LongLatReader(t_regist_gps).read(new LongLatReader.ReadOneLine() {
+			final Integer month = start;
+			new LongLatReader(t_regist_gps).read(new LongLatReader.ReadOneLineListener() {
 				@Override
 				public void hasRead(String[] lineStrs) throws IOException, Exception {
-					String pcid_registid = fileDirectory("pc-regist") + csvFile(lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(anonymousMonth));
-					String mac_address   = fileDirectory("mac") + csvFile(lineStrs[2]);
+					String pcid_registid = fileDirectory("pc-regist") + csvFile(lineStrs[0] + "_" + lineStrs[1] + "_" + fileNameMonth(month));
+					String mac_address   = fileDirectory("mac") + csvFile(lineStrs[6]);
 
 					File mac = new File(mac_address);
 					if ( !mac.exists() ) {
@@ -35,17 +34,19 @@ public class DVRMain {
 					}
 
 					LongLatWriter writer = new LongLatWriter(mac_address);
-					new LongLatReader(pcid_registid).read(new LongLatReader.ReadOneLine() {
+					new LongLatReader(pcid_registid).read(new LongLatReader.ReadOneLineListener() {
 						@Override
 						public void hasRead(String[] lineStrsSub) throws IOException, Exception {
 							writer.write(new LongLatSearcher().search(lineStrsSub));
 						}
 					});
 					writer.close();
+
+					mac.close();
 				}
 			});
 
-			month++;
+			start++;
 		}
 	}
 

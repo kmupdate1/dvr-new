@@ -21,18 +21,18 @@ public class LongLatReader {
 		}
 	}
 
-	public void read(ReadOneLine readOneLine) throws IOException, Exception {
+	public void read(ReadOneLineListener listener) throws IOException, Exception {
 
 		Integer index = 0;
 		String line = bufferedReader.readLine();
 		while ( line != null ) {
-			readOneLine.hasRead(line.split(","));
+			listener.hasRead(line.split(","));
 		}
 
 		bufferedReader.close();
 	}
 
-	public interface ReadOneLine {
+	public interface ReadOneLineListener {
 		public void hasRead(String[] lineStrs) throws IOException, Exception;
 	}
 }
